@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lessons from Wentworth VR — Karel Terra Dev Blog</title>
+  <meta name="description" content="What leading an award-winning VR production taught me about small teams, creative pressure, and interactive storytelling." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <style>
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../../index.html" class="nav-logo">Karel<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="../../index.html#about">About</a></li>
+      <li><a href="../../index.html#experience">Experience</a></li>
+      <li><a href="../../index.html#projects">Projects</a></li>
+      <li><a href="../../index.html#skills">Skills</a></li>
+      <li><a href="../index.html" style="color:var(--text)">Dev Blog</a></li>
+      <li><a href="../../index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="post-hero">
+  <div class="container">
+    <a href="../index.html" class="post-back">← Back to Dev Blog</a>
+    <div class="post-meta-row">
+      <span class="blog-tag-pill">Production</span>
+      <span class="blog-date">May 4, 2026</span>
+      <span class="read-time" style="color:var(--muted);font-size:0.8rem">6 min read</span>
+    </div>
+    <h1>Lessons from Leading a VR Production (That Won an Award)</h1>
+    <p class="post-hero-desc">
+      What Wentworth VR taught me about leading small creative teams, shipping under pressure, and the things that actually matter in interactive storytelling.
+    </p>
+  </div>
+</div>
+
+<div class="container post-content-wrap">
+  <div class="blog-card-img-placeholder post-featured-img" style="border-radius:12px;font-size:4rem;">🥽</div>
+
+  <div class="post-body fade-in">
+    <p>
+      In 2018 I led development on <em>Wentworth VR</em>, an interactive cinematic VR experience based on the Australian TV drama. It won the <strong>Screen Producers Awards — Interactive / Game Production</strong> category that year. I'm proud of it. I'm also grateful for what it broke in me.
+    </p>
+
+    <h2>VR storytelling is a different problem</h2>
+
+    <p>
+      In traditional game design, you control where the player looks. In VR, you don't — and in cinematic VR, you <em>really</em> don't. The player is a presence in the scene, not a controller of it. That completely inverts the usual toolkit.
+    </p>
+
+    <p>
+      Most of our early design problems came from forgetting this. We'd design a dramatic reveal — and half our playtesters were looking the wrong way when it happened. The answer wasn't better design; it was humility. <strong>Guide attention with light, sound, and staging — not forced camera control.</strong>
+    </p>
+
+    <h2>Leading a small team under real constraints</h2>
+
+    <p>
+      We were a small team with a real deadline, a licensed IP, and stakeholders who understood film but not interactive media. That last point was the biggest challenge.
+    </p>
+
+    <p>
+      "Interactive" gets used loosely. To a film producer, interactive might mean "the player can choose ending A or B." To a game designer, it means something much richer. Bridging that gap — without either oversimplifying or overwhelming — took more communication work than any technical challenge on the project.
+    </p>
+
+    <blockquote>
+      "The best thing I did as lead was define what 'done' meant before we started, in terms everyone could agree on."
+    </blockquote>
+
+    <h2>What I'd do differently</h2>
+
+    <p>
+      Playtest earlier and with non-gamers. VR onboarding for someone who's never worn a headset is a completely different problem from VR onboarding for someone who plays games. We optimised for the latter and shipped with friction points for the former that we didn't fully resolve.
+    </p>
+
+    <p>
+      I'd also spend more time upfront on the <strong>sound design brief</strong>. In VR, audio is spatial — it does as much work as visuals for presence and direction. We treated it as a later-stage concern and paid for it in iteration time.
+    </p>
+
+    <h2>What carries forward</h2>
+
+    <p>
+      The core skill I built on Wentworth VR wasn't VR-specific. It was <strong>translating between creative disciplines</strong> — helping writers, cinematographers, and developers understand each other well enough to make decisions together. That's a skill I've used on every project since, and it's probably the one I'm most grateful for.
+    </p>
+
+    <hr style="border:none;border-top:1px solid var(--border);margin:48px 0" />
+    <p style="color:var(--muted);font-size:0.9rem">More posts coming regularly. Follow along for systems design breakdowns, production retrospectives, and work-in-progress updates.</p>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;margin-top:64px;padding-top:32px;border-top:1px solid var(--border);flex-wrap:wrap;gap:16px;">
+    <a href="feel-first-design.html" style="display:flex;flex-direction:column;gap:4px;max-width:300px;">
+      <span style="font-size:0.78rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;">Previous post</span>
+      <span style="font-weight:600;color:var(--accent);font-size:0.95rem;">← "Feel First" Design</span>
+    </a>
+    <div></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">© 2026 Karel Terra.</p>
+    <div class="footer-links">
+      <a href="../index.html">Dev Blog</a>
+      <a href="../../index.html">Portfolio</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>

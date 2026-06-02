@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karel Terra — Senior Technical Game Designer</title>
+  <meta name="description" content="Portfolio of Karel Terra, Senior Technical Game Designer with 10+ years experience across AAA, mobile, and VR. Currently at EA Sports on College Football." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+    .fade-in:nth-child(2) { transition-delay: 0.1s; }
+    .fade-in:nth-child(3) { transition-delay: 0.2s; }
+    .fade-in:nth-child(4) { transition-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">Karel<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="blog/index.html">Dev Blog</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="container hero-grid">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Available for new opportunities</div>
+      <h1>Karel<br /><em>Terra</em></h1>
+      <p class="hero-title">Senior Technical Game Designer</p>
+      <p class="hero-desc">
+        Over a decade crafting gameplay systems, progression loops, and player experiences for AAA, mobile, and VR titles across three continents.
+      </p>
+      <div class="hero-actions">
+        <a href="#experience" class="btn btn-primary">View my work</a>
+        <a href="#contact" class="btn btn-outline">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-card fade-in">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Years of experience</div>
+        <div class="stat-sub">AAA · Mobile · VR</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Countries worked in</div>
+        <div class="stat-sub">Germany · New Zealand · Australia</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">EA</div>
+        <div class="stat-label">Currently at EA Sports</div>
+        <div class="stat-sub">College Football franchise</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-text fade-in">
+      <div class="section-label">About me</div>
+      <h2 class="section-title">Designing systems players feel</h2>
+      <p>
+        I'm a Technical Game Designer with a passion for building the <strong>invisible scaffolding</strong> that makes games come alive — the systems, loops, and mechanics that players interact with thousands of times without ever noticing they're there.
+      </p>
+      <p>
+        My career spans the full spectrum: from <strong>AAA sports titles at EA</strong> to indie mobile prototypes, VR experiences, and award-winning interactive cinema. I'm equally comfortable whiteboarding a progression system, implementing it in engine, and writing the documentation that ships it across a 100-person team.
+      </p>
+      <p>
+        I thrive in cross-disciplinary environments — bridging the gap between design intent and technical reality, and advocating for the player experience at every stage.
+      </p>
+      <div class="about-tags">
+        <span class="tag">Systems Design</span>
+        <span class="tag">Progression Design</span>
+        <span class="tag">Technical Implementation</span>
+        <span class="tag">Cross-team Collaboration</span>
+        <span class="tag">Tool Development</span>
+        <span class="tag">Documentation</span>
+        <span class="tag">Unreal Engine</span>
+        <span class="tag">Mobile Development</span>
+      </div>
+    </div>
+
+    <div class="about-side fade-in">
+      <div class="section-label">Based &amp; worked</div>
+      <div class="location-list">
+        <div class="location-item">
+          <div class="location-icon">🇺🇸</div>
+          <div class="location-info">
+            <strong>United States</strong>
+            <span>Current · EA Sports, College Football</span>
+          </div>
+        </div>
+        <div class="location-item">
+          <div class="location-icon">🇦🇺</div>
+          <div class="location-info">
+            <strong>Australia</strong>
+            <span>Sydney — Mobile &amp; Indie</span>
+          </div>
+        </div>
+        <div class="location-item">
+          <div class="location-icon">🇳🇿</div>
+          <div class="location-info">
+            <strong>New Zealand</strong>
+            <span>VR &amp; Interactive Media</span>
+          </div>
+        </div>
+        <div class="location-item">
+          <div class="location-icon">🇩🇪</div>
+          <div class="location-info">
+            <strong>Germany</strong>
+            <span>Early career</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section class="experience" id="experience">
+  <div class="container">
+    <div class="exp-header fade-in">
+      <div class="section-label">Experience</div>
+      <h2 class="section-title">Work history</h2>
+      <p class="section-desc">A decade of shipping games across platforms, team sizes, and genres.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-meta">
+            <span class="timeline-date">2020 – Present</span>
+            <span class="timeline-company">EA Sports · AAA</span>
+          </div>
+          <h3>Lead Technical Game Designer — College Football</h3>
+          <p>
+            Joined EA Sports as Technical Designer II, growing into a lead design role on the <em>EA Sports College Football</em> franchise (CF25, CF26, CF27). Owned Road to Glory mode for CF26 and CF27 from design through ship — responsible for feature design, implementation oversight, and cross-team coordination.
+          </p>
+          <p>
+            Delivered the News System feature end-to-end: GDD, implementation, QA cycles, and live rollout. Acted as the connective tissue between design, engineering, and production across a large distributed team.
+          </p>
+          <div class="timeline-tags">
+            <span class="chip">Systems Design</span>
+            <span class="chip">Progression</span>
+            <span class="chip">Road to Glory</span>
+            <span class="chip">Documentation</span>
+            <span class="chip">Feature Lead</span>
+            <span class="chip">AAA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-meta">
+            <span class="timeline-date">2018 – 2020</span>
+            <span class="timeline-company">NetherRealm / WB Games · Remote</span>
+          </div>
+          <h3>Game Integration Engineer — Mortal Kombat: Onslaught</h3>
+          <p>
+            Served as the bridge between online feature teams and backend services on Mortal Kombat: Onslaught. Built and maintained integration pipelines, created internal tooling for designers, and collaborated remotely with cross-functional teams across multiple time zones.
+          </p>
+          <div class="timeline-tags">
+            <span class="chip">Online Systems</span>
+            <span class="chip">Backend Integration</span>
+            <span class="chip">Tool Development</span>
+            <span class="chip">Mobile</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-meta">
+            <span class="timeline-date">2016 – 2018</span>
+            <span class="timeline-company">Malice · Sydney, Australia</span>
+          </div>
+          <h3>Game Designer &amp; Developer — Malice (Incubator)</h3>
+          <p>
+            Part of a Sydney-based incubator program developing <em>Malice</em> for mobile and PlayStation Vita. Responsible for mobile/PSVita platform optimization, UI system design and implementation, game scripting, and building designer-facing workflow tools.
+          </p>
+          <div class="timeline-tags">
+            <span class="chip chip-orange">Mobile</span>
+            <span class="chip chip-orange">PSVita</span>
+            <span class="chip chip-orange">UI Systems</span>
+            <span class="chip chip-orange">Scripting</span>
+            <span class="chip chip-orange">Optimization</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-meta">
+            <span class="timeline-date">2017 – 2018</span>
+            <span class="timeline-company">Wentworth VR · New Zealand</span>
+          </div>
+          <h3>Development Lead — Wentworth VR</h3>
+          <p>
+            Led development of <em>Wentworth VR</em>, an interactive cinematic VR experience. Managed a small cross-disciplinary team, driving the project from concept to a 2018 Screen Producers Awards win in the <strong>Interactive / Game Production</strong> category.
+          </p>
+          <div class="timeline-tags">
+            <span class="chip chip-orange">VR</span>
+            <span class="chip chip-orange">Development Lead</span>
+            <span class="chip chip-orange">Interactive Cinema</span>
+            <span class="chip chip-orange">Award Winner</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Prototypes &amp; Personal Work</div>
+      <h2 class="section-title">Projects</h2>
+      <p class="section-desc">Personal projects where design philosophy drives every decision.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card fade-in">
+        <div class="project-type">Puzzle · Mobile</div>
+        <h3>wAv</h3>
+        <p>
+          A serene puzzle game built on a "feel first" design philosophy — balancing meaningful engagement with calm and tranquility. Players create rippling waves to guide objects to safe zones, with every mechanic serving the emotional goal.
+        </p>
+        <div class="project-features">
+          <div class="feature-item">Wave-based physics pushing objects to goal zones</div>
+          <div class="feature-item">Minimalist visual language driven by feel, not friction</div>
+          <div class="feature-item">Difficulty curve tuned to preserve the serene tone</div>
+        </div>
+        <div class="timeline-tags">
+          <span class="chip">Puzzle Design</span>
+          <span class="chip">Mobile</span>
+          <span class="chip">Feel-First Design</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-type">Strategy · Multiplayer · Mobile</div>
+        <h3>Frontlines</h3>
+        <p>
+          A real-time mobile strategy game with a strong narrative backbone. Players control soldiers with generated backstories, making morally complex decisions on a global conflict map.
+        </p>
+        <div class="project-features">
+          <div class="feature-item">Hold-to-aim targeting system with skill-based depth</div>
+          <div class="feature-item">Territory control across a persistent global map</div>
+          <div class="feature-item">Procedural soldier backstory generator with moral branching</div>
+          <div class="feature-item">Real-time multiplayer across mobile networks</div>
+        </div>
+        <div class="timeline-tags">
+          <span class="chip">Strategy</span>
+          <span class="chip">Multiplayer</span>
+          <span class="chip">Narrative Systems</span>
+          <span class="chip">Mobile</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section class="skills" id="skills">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Skills</div>
+      <h2 class="section-title">What I bring</h2>
+      <p class="section-desc">A blend of design thinking and technical execution.</p>
+    </div>
+
+    <div class="skills-grid">
+
+      <div class="skill-group fade-in">
+        <div class="skill-group-icon">⚙️</div>
+        <h3>Game Design</h3>
+        <div class="skill-list">
+          <span class="skill-pill">Systems Design</span>
+          <span class="skill-pill">Progression Design</span>
+          <span class="skill-pill">Feature Design</span>
+          <span class="skill-pill">Balancing</span>
+          <span class="skill-pill">UX Design</span>
+          <span class="skill-pill">Prototyping</span>
+        </div>
+      </div>
+
+      <div class="skill-group fade-in">
+        <div class="skill-group-icon">💻</div>
+        <h3>Technical</h3>
+        <div class="skill-list">
+          <span class="skill-pill">Unreal Engine</span>
+          <span class="skill-pill">Game Scripting</span>
+          <span class="skill-pill">Tool Development</span>
+          <span class="skill-pill">Backend Integration</span>
+          <span class="skill-pill">Mobile Optimization</span>
+          <span class="skill-pill">VR Development</span>
+        </div>
+      </div>
+
+      <div class="skill-group fade-in">
+        <div class="skill-group-icon">📋</div>
+        <h3>Production &amp; Process</h3>
+        <div class="skill-list">
+          <span class="skill-pill">GDD Writing</span>
+          <span class="skill-pill">Documentation</span>
+          <span class="skill-pill">Cross-team Collaboration</span>
+          <span class="skill-pill">Agile / Scrum</span>
+          <span class="skill-pill">Feature Leads</span>
+          <span class="skill-pill">QA Cycles</span>
+        </div>
+      </div>
+
+      <div class="skill-group fade-in">
+        <div class="skill-group-icon">🎮</div>
+        <h3>Platforms</h3>
+        <div class="skill-list">
+          <span class="skill-pill">Console (PS5/Xbox)</span>
+          <span class="skill-pill">iOS / Android</span>
+          <span class="skill-pill">PSVita</span>
+          <span class="skill-pill">VR / XR</span>
+          <span class="skill-pill">PC</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-inner fade-in">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Let's talk</h2>
+      <p class="section-desc">
+        Interested in collaborating, have a role in mind, or just want to chat game design? I'm always happy to connect.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          Email me
+        </a>
+        <a href="https://www.linkedin.com/in/yourprofile" class="contact-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+          LinkedIn
+        </a>
+        <a href="assets/karel-terra-resume.pdf" class="contact-link" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          Resume / CV
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">© 2026 Karel Terra. Built for GitHub Pages.</p>
+    <div class="footer-links">
+      <a href="blog/index.html">Dev Blog</a>
+      <a href="#home">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

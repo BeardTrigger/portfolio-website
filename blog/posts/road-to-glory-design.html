@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing Road to Glory — Karel Terra Dev Blog</title>
+  <meta name="description" content="A deep dive into the design decisions behind CF26's Road to Glory mode." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+
+  <style>
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../../index.html" class="nav-logo">Karel<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="../../index.html#about">About</a></li>
+      <li><a href="../../index.html#experience">Experience</a></li>
+      <li><a href="../../index.html#projects">Projects</a></li>
+      <li><a href="../../index.html#skills">Skills</a></li>
+      <li><a href="../index.html" style="color:var(--text)">Dev Blog</a></li>
+      <li><a href="../../index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- POST HERO -->
+<div class="post-hero">
+  <div class="container">
+    <a href="../index.html" class="post-back">
+      ← Back to Dev Blog
+    </a>
+    <div class="post-meta-row">
+      <span class="blog-tag-pill">Systems Design</span>
+      <span class="blog-date">June 1, 2026</span>
+      <span class="read-time" style="color:var(--muted);font-size:0.8rem">8 min read</span>
+    </div>
+    <h1>Designing Road to Glory: Building a Career Mode Players Care About</h1>
+    <p class="post-hero-desc">
+      A look inside the design process for CF26's Road to Glory — what we wanted players to feel, the systems we built to get there, and the hard calls we had to make.
+    </p>
+  </div>
+</div>
+
+<!-- POST CONTENT -->
+<div class="container post-content-wrap">
+  <div class="blog-card-img-placeholder post-featured-img" style="border-radius:12px; aspect-ratio:16/9; font-size:4rem;">🏈</div>
+
+  <div class="post-body fade-in">
+
+    <p>
+      Career modes live or die by one question: <strong>does the player care what happens to their character?</strong> If the answer is yes, you can get away with a lot. If it's no, no amount of systems depth will save the mode from feeling like a spreadsheet with animations.
+    </p>
+
+    <p>
+      When I took on lead design for Road to Glory in CF26, that question was the north star for every decision we made. Here's how we thought about it.
+    </p>
+
+    <h2>Starting with the emotional arc</h2>
+
+    <p>
+      Before we talked mechanics, we talked about the story we wanted every player to experience. Not a scripted narrative — RTG isn't that kind of mode — but an <em>emotional arc</em> that the systems should naturally produce.
+    </p>
+
+    <p>
+      The arc we landed on was: <strong>scrappy recruit → proving yourself → earning your legacy</strong>. It sounds obvious, but defining it explicitly changed how we evaluated every feature. Does this mechanic reinforce the "proving yourself" phase? Does this progression moment feel like a legacy moment or just a number going up?
+    </p>
+
+    <blockquote>
+      "The goal was never to simulate college football. It was to make the player feel like a college football player."
+    </blockquote>
+
+    <h2>The tension between depth and accessibility</h2>
+
+    <p>
+      RTG has a wide audience — hardcore sim players and casual fans who just want to live out a fantasy. These players want very different things, and you can't fully serve both without being intentional about where the depth lives.
+    </p>
+
+    <p>
+      Our approach: <strong>hide complexity behind legibility.</strong> The underlying simulation is detailed, but what the player sees are clear, meaningful choices. A recruit ranking isn't a number — it's "do you go to the powerhouse where you might ride the bench, or the mid-major where you start day one?" That's a decision players understand emotionally, not just mechanically.
+    </p>
+
+    <h2>What we cut (and why)</h2>
+
+    <p>
+      Some things that seemed great in design doc ended up on the cutting room floor. A few examples:
+    </p>
+
+    <ul>
+      <li><strong>Detailed class schedule simulation</strong> — interesting on paper, but it created busy-work without meaningful choices. Cut.</li>
+      <li><strong>Social media / hype meter</strong> — we prototyped this and it added noise without adding stakes. The player's actual performance should drive reputation, not a secondary loop.</li>
+      <li><strong>Injury depth system</strong> — the sim side was solid but the moment-to-moment experience was frustrating, not dramatic. Simplified significantly.</li>
+    </ul>
+
+    <p>
+      Cutting features is always hard, especially when they're technically working. But a mode that does fewer things <em>well</em> is almost always better than one that does many things adequately.
+    </p>
+
+    <h2>On documentation and cross-team work</h2>
+
+    <p>
+      RTG is a large mode touching a lot of systems — recruiting, progression, on-field gameplay, UI, narrative triggers, and more. None of those are owned by one person. Making something like this ship requires design documentation that actually communicates intent, not just spec.
+    </p>
+
+    <p>
+      I spent a lot of time on the "why" sections of every GDD page — why does this mechanic exist, what player feeling does it serve, what's the acceptable failure mode? That context is what lets other teams make good calls without needing to loop you in on every edge case.
+    </p>
+
+    <h2>What I'd do differently</h2>
+
+    <p>
+      We shipped something I'm genuinely proud of, but no mode is perfect. If I were starting RTG from scratch today, I'd invest more time earlier in <strong>player-facing feedback clarity</strong> — making sure every system communicates to the player why things are happening. Some of our deeper simulation logic was invisible in a way that made the mode feel arbitrary to players even when it wasn't.
+    </p>
+
+    <p>
+      That's the next frontier for career modes in general: closing the gap between simulation fidelity and player comprehension.
+    </p>
+
+    <hr style="border:none;border-top:1px solid var(--border);margin:48px 0" />
+
+    <p style="color:var(--muted); font-size:0.9rem">
+      This is the first post in an ongoing series on systems design, career mode development, and technical game design practice. Next up: the "feel first" approach I used on wAv and how it applies to larger productions.
+    </p>
+
+  </div>
+
+  <!-- Next/Prev navigation -->
+  <div style="display:flex; justify-content:space-between; margin-top:64px; padding-top:32px; border-top:1px solid var(--border); flex-wrap:wrap; gap:16px;">
+    <div></div>
+    <a href="feel-first-design.html" style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; max-width:300px;">
+      <span style="font-size:0.78rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;">Next post</span>
+      <span style="font-weight:600; color:var(--accent); font-size:0.95rem;">"Feel First" Design: Building wAv Around an Emotion →</span>
+    </a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">© 2026 Karel Terra.</p>
+    <div class="footer-links">
+      <a href="../index.html">Dev Blog</a>
+      <a href="../../index.html">Portfolio</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>"Feel First" Design — Karel Terra Dev Blog</title>
+  <meta name="description" content="How building wAv around a target emotion changed my entire design process." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <style>
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../../index.html" class="nav-logo">Karel<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="../../index.html#about">About</a></li>
+      <li><a href="../../index.html#experience">Experience</a></li>
+      <li><a href="../../index.html#projects">Projects</a></li>
+      <li><a href="../../index.html#skills">Skills</a></li>
+      <li><a href="../index.html" style="color:var(--text)">Dev Blog</a></li>
+      <li><a href="../../index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="post-hero">
+  <div class="container">
+    <a href="../index.html" class="post-back">← Back to Dev Blog</a>
+    <div class="post-meta-row">
+      <span class="blog-tag-pill">Design Theory</span>
+      <span class="blog-date">May 18, 2026</span>
+      <span class="read-time" style="color:var(--muted);font-size:0.8rem">5 min read</span>
+    </div>
+    <h1>"Feel First" Design: Building wAv Around an Emotion</h1>
+    <p class="post-hero-desc">
+      How I approached designing wAv by starting with a target feeling rather than a mechanic — and why that order of operations changed everything.
+    </p>
+  </div>
+</div>
+
+<div class="container post-content-wrap">
+  <div class="blog-card-img-placeholder post-featured-img" style="border-radius:12px;font-size:4rem;">🌊</div>
+
+  <div class="post-body fade-in">
+    <p>
+      Most games start with a mechanic. <em>What if you could do X?</em> It's a natural way to think — mechanics are concrete, prototypable, and easy to communicate. But when I started on wAv, I deliberately broke that habit.
+    </p>
+
+    <p>
+      The question I started with instead: <strong>What do I want the player to feel?</strong>
+    </p>
+
+    <h2>Defining the target emotion</h2>
+
+    <p>
+      I wanted wAv to feel like a Sunday morning. Calm, unhurried, but quietly satisfying. Not a game you grind — a game you settle into. That sounds fuzzy and undesignable, but it turns out a clear emotional target is one of the most useful tools you can have.
+    </p>
+
+    <p>
+      Every design decision has a filter: <em>does this serve the feeling?</em> A timer? No — timers create anxiety. A combo multiplier? No — that creates urgency. A gentle ripple that nudges objects? Yes — that's calm agency.
+    </p>
+
+    <h2>When mechanics follow feeling</h2>
+
+    <p>
+      The wave mechanic didn't come first — the feeling did. Once I knew I wanted the player to feel like they were gently influencing a serene system rather than controlling it, the wave metaphor was obvious. You don't push objects, you create a disturbance that reaches them. You're not in control — you're in conversation with the environment.
+    </p>
+
+    <blockquote>
+      "The best mechanics in this kind of game should feel discovered, not imposed."
+    </blockquote>
+
+    <p>
+      This applies beyond puzzle games. On RTG, the emotional target of "earning your legacy" shaped mechanical decisions too — why some milestones feel ceremonial rather than just numerical, why certain moments get extra camera treatment.
+    </p>
+
+    <h2>The limits of feel-first</h2>
+
+    <p>
+      I should be honest: feel-first design creates its own problems. The biggest one is scope — it's easy to cut anything that "doesn't serve the feeling," which can gut your game of interesting tension. Serene doesn't mean frictionless. wAv needed difficulty; the question was what kind.
+    </p>
+
+    <p>
+      The answer: difficulty through <em>spatial reasoning</em>, not <em>pressure</em>. The puzzle is in reading how the wave will behave — not in reacting faster or more accurately. That preserves calm while keeping the brain engaged.
+    </p>
+
+    <hr style="border:none;border-top:1px solid var(--border);margin:48px 0" />
+    <p style="color:var(--muted);font-size:0.9rem">Next post: lessons from leading the Wentworth VR production — a different kind of "feel first" challenge.</p>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;margin-top:64px;padding-top:32px;border-top:1px solid var(--border);flex-wrap:wrap;gap:16px;">
+    <a href="road-to-glory-design.html" style="display:flex;flex-direction:column;gap:4px;max-width:300px;">
+      <span style="font-size:0.78rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;">Previous post</span>
+      <span style="font-weight:600;color:var(--accent);font-size:0.95rem;">← Designing Road to Glory</span>
+    </a>
+    <a href="vr-production-lessons.html" style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;max-width:300px;">
+      <span style="font-size:0.78rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;">Next post</span>
+      <span style="font-weight:600;color:var(--accent);font-size:0.95rem;">Lessons from Wentworth VR →</span>
+    </a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">© 2026 Karel Terra.</p>
+    <div class="footer-links">
+      <a href="../index.html">Dev Blog</a>
+      <a href="../../index.html">Portfolio</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../js/main.js"></script>
+</body>
+</html>

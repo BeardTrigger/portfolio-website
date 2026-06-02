@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Blog — Karel Terra</title>
+  <meta name="description" content="Karel Terra's game design development blog — behind-the-scenes breakdowns, design theory, and in-progress work." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <style>
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../index.html" class="nav-logo">Karel<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+      <li><a href="index.html" style="color:var(--text)">Dev Blog</a></li>
+      <li><a href="../index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- BLOG HERO -->
+<div class="blog-hero">
+  <div class="container">
+    <div class="section-label" style="justify-content:center">Dev Blog</div>
+    <h1>Design Notes</h1>
+    <p>Behind-the-scenes breakdowns, system design theory, and work-in-progress updates — posted weekly or fortnightly.</p>
+  </div>
+</div>
+
+<!-- BLOG POSTS -->
+<div class="container blog-grid">
+
+  <!-- Post 1 — featured/wide -->
+  <a href="posts/road-to-glory-design.html" class="blog-card fade-in" style="grid-column: 1 / -1; display:grid; grid-template-columns: 1fr 1fr;">
+    <div class="blog-card-img-placeholder" style="aspect-ratio:auto; min-height:260px; border-radius:12px 0 0 12px;">🏈</div>
+    <div class="blog-card-body">
+      <div class="blog-card-meta">
+        <span class="blog-date">June 1, 2026</span>
+        <span class="blog-tag-pill">Systems Design</span>
+      </div>
+      <h2 style="font-size:1.5rem">Designing Road to Glory: Building a Career Mode Players Care About</h2>
+      <p>A deep dive into the design decisions behind CF26's Road to Glory — what we wanted players to feel, the systems we built to get there, and the cuts we had to make.</p>
+      <div class="blog-card-footer">
+        <span class="read-more">Read post →</span>
+        <span class="read-time">8 min read</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- Post 2 -->
+  <a href="posts/feel-first-design.html" class="blog-card fade-in">
+    <div class="blog-card-img-placeholder">🌊</div>
+    <div class="blog-card-body">
+      <div class="blog-card-meta">
+        <span class="blog-date">May 18, 2026</span>
+        <span class="blog-tag-pill">Design Theory</span>
+      </div>
+      <h2>"Feel First" Design: Building wAv Around an Emotion</h2>
+      <p>How I approached designing wAv by starting with a target feeling rather than a mechanic — and why that order of operations changed everything.</p>
+      <div class="blog-card-footer">
+        <span class="read-more">Read post →</span>
+        <span class="read-time">5 min read</span>
+      </div>
+    </div>
+  </a>
+
+  <!-- Post 3 -->
+  <a href="posts/vr-production-lessons.html" class="blog-card fade-in">
+    <div class="blog-card-img-placeholder">🥽</div>
+    <div class="blog-card-body">
+      <div class="blog-card-meta">
+        <span class="blog-date">May 4, 2026</span>
+        <span class="blog-tag-pill">Production</span>
+      </div>
+      <h2>Lessons from Leading a VR Production (That Won an Award)</h2>
+      <p>What Wentworth VR taught me about leading small creative teams, shipping under pressure, and the things that actually matter in interactive storytelling.</p>
+      <div class="blog-card-footer">
+        <span class="read-more">Read post →</span>
+        <span class="read-time">6 min read</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-copy">© 2026 Karel Terra.</p>
+    <div class="footer-links">
+      <a href="../index.html">Portfolio</a>
+      <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
