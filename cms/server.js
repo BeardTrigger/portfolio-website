@@ -313,6 +313,39 @@ app.post('/api/content', (req, res) => {
   }
 });
 
+// ─── GET /api/blog-page  ─────────────────────────────────────────────────────
+// Returns the editable content from blog/index.html hero section
+
+app.get('/api/blog-page', (req, res) => {
+  try {
+    const $ = cheerio.load(readHtml(BLOG_INDEX), { decodeEntities: false });
+    res.json({
+      label: $('.blog-hero .section-label').text().trim(),
+      heading: $('.blog-hero h1').text().trim(),
+      desc: $('.blog-hero p').text().trim()
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── POST /api/blog-page  ────────────────────────────────────────────────────
+// Writes updated hero content back to blog/index.html
+
+app.post('/api/blog-page', (req, res) => {
+  try {
+    const { label, heading, desc } = req.body;
+    const $ = cheerio.load(readHtml(BLOG_INDEX), { decodeEntities: false });
+    if (label   !== undefined) $('.blog-hero .section-label').text(label);
+    if (heading !== undefined) $('.blog-hero h1').text(heading);
+    if (desc    !== undefined) $('.blog-hero p').text(desc);
+    writeHtml(BLOG_INDEX, $.html());
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ─── GET /api/blog  ───────────────────────────────────────────────────────────
 // Returns list of blog posts from blog/index.html
 

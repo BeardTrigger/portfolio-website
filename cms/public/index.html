@@ -168,6 +168,7 @@
     <div class="nav-item" data-tab="styles">        <span class="icon">🎨</span> Styles</div>
 
     <div class="nav-section">Blog</div>
+    <div class="nav-item" data-tab="blog-page">     <span class="icon">📰</span> Blog Page</div>
     <div class="nav-item" data-tab="blog-list">     <span class="icon">📋</span> Posts</div>
     <div class="nav-item" data-tab="blog-new">      <span class="icon">✏️</span> New Post</div>
 
@@ -230,7 +231,11 @@
         </div>
         <div class="field" style="margin-top:0.75rem">
           <label>Tag colour</label>
-          <div class="color-field"><input type="color" id="about-tagColor" value="#00c8ff" /><input type="text" id="about-tagColor-hex" maxlength="7" placeholder="default" /></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+            <input type="checkbox" id="about-tagColor-enabled" style="width:auto;cursor:pointer" />
+            <input type="color" id="about-tagColor" value="#00c8ff" style="width:44px;height:32px;padding:2px;border-radius:6px;border:1px solid var(--border);background:var(--bg);cursor:pointer" />
+            <span style="font-size:0.8rem;color:var(--text-muted)">Custom colour</span>
+          </div>
         </div>
       </div>
       <div class="card">
@@ -340,6 +345,23 @@
       </div>
     </div>
 
+    <!-- BLOG PAGE -->
+    <div class="tab-panel" id="tab-blog-page">
+      <div class="page-header">
+        <h2>Blog Page</h2>
+        <p>The heading and intro text on the Dev Blog listing page.</p>
+      </div>
+      <div class="card">
+        <div class="field"><label>Section label (small text above heading)</label><input type="text" id="blog-page-label" /></div>
+        <div class="field"><label>Heading</label><input type="text" id="blog-page-heading" /></div>
+        <div class="field"><label>Description</label><textarea id="blog-page-desc" rows="3"></textarea></div>
+      </div>
+      <div class="save-bar">
+        <button class="btn btn-primary" onclick="saveBlogPage()">Save Blog Page</button>
+        <span class="status-msg" id="status-blog-page"></span>
+      </div>
+    </div>
+
     <!-- BLOG LIST -->
     <div class="tab-panel" id="tab-blog-list">
       <div class="page-header">
@@ -435,6 +457,7 @@ async function init() {
   // Load data
   await loadContent();
   await loadBlogPosts();
+  await loadBlogPage();
   await loadAssets();
   await loadStyles();
 }
@@ -505,10 +528,9 @@ function renderAbout() {
   editor.querySelectorAll('.chip-tag').forEach(c => c.remove());
   a.tags.forEach(tag => addChipToEditor('about-tags-editor', tag));
   if (a.tagColor) {
-    document.getElementById('about-tagColor').value     = a.tagColor;
-    document.getElementById('about-tagColor-hex').value = a.tagColor;
+    document.getElementById('about-tagColor').value          = a.tagColor;
+    document.getElementById('about-tagColor-enabled').checked = true;
   }
-  bindColorPair('about-tagColor', 'about-tagColor-hex');
 
   const tagInput = document.getElementById('about-tag-input');
   tagInput.onkeydown = e => {
@@ -569,9 +591,23 @@ function renderExperience() {
               <input type="text" id="exp-chip-input-${i}" placeholder="Add chip…" />
             </div>
           </div>
-          <div class="field-row" style="margin-top:0.5rem">
-            <div class="field"><label>Timeline dot colour</label><div class="color-field"><input type="color" id="exp-dotColor-${i}" value="${exp.dotColor || '#00c8ff'}" /><input type="text" id="exp-dotColor-hex-${i}" value="${exp.dotColor || ''}" maxlength="7" placeholder="default" /></div></div>
-            <div class="field"><label>Chip colour</label><div class="color-field"><input type="color" id="exp-chipColor-${i}" value="${exp.chipColor || '#00c8ff'}" /><input type="text" id="exp-chipColor-hex-${i}" value="${exp.chipColor || ''}" maxlength="7" placeholder="default" /></div></div>
+          <div class="field-row" style="margin-top:0.75rem">
+            <div class="field">
+              <label>Timeline dot colour</label>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+                <input type="checkbox" id="exp-dotColor-enabled-${i}" style="width:auto;cursor:pointer" ${exp.dotColor ? 'checked' : ''} />
+                <input type="color" id="exp-dotColor-${i}" value="${exp.dotColor || '#00c8ff'}" style="width:44px;height:32px;padding:2px;border-radius:6px;border:1px solid var(--border);background:var(--bg);cursor:pointer" />
+                <span style="font-size:0.8rem;color:var(--text-muted)">Custom colour</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Chip colour</label>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+                <input type="checkbox" id="exp-chipColor-enabled-${i}" style="width:auto;cursor:pointer" ${exp.chipColor ? 'checked' : ''} />
+                <input type="color" id="exp-chipColor-${i}" value="${exp.chipColor || '#00c8ff'}" style="width:44px;height:32px;padding:2px;border-radius:6px;border:1px solid var(--border);background:var(--bg);cursor:pointer" />
+                <span style="font-size:0.8rem;color:var(--text-muted)">Custom colour</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>`;
@@ -586,8 +622,6 @@ function renderExperience() {
         e.preventDefault();
       }
     };
-    bindColorPair(`exp-dotColor-${i}`,  `exp-dotColor-hex-${i}`);
-    bindColorPair(`exp-chipColor-${i}`, `exp-chipColor-hex-${i}`);
   });
 }
 
@@ -609,8 +643,10 @@ function collectExpData() {
     paras:     exp.paras.map((_, j) => val(`exp-para-${i}-${j}`)),
     chips:     getChips(`exp-chips-${i}`),
     hidden:    exp.hidden || false,
-    dotColor:  val(`exp-dotColor-hex-${i}`),
-    chipColor: val(`exp-chipColor-hex-${i}`)
+    dotColor:  document.getElementById(`exp-dotColor-enabled-${i}`)?.checked
+                 ? (document.getElementById(`exp-dotColor-${i}`)?.value || '') : '',
+    chipColor: document.getElementById(`exp-chipColor-enabled-${i}`)?.checked
+                 ? (document.getElementById(`exp-chipColor-${i}`)?.value || '') : ''
   }));
 }
 
@@ -676,9 +712,13 @@ function renderProjects() {
               <input type="text" id="proj-chip-input-${i}" placeholder="Add chip…" />
             </div>
           </div>
-          <div class="field" style="margin-top:0.5rem">
+          <div class="field" style="margin-top:0.75rem">
             <label>Chip colour</label>
-            <div class="color-field"><input type="color" id="proj-chipColor-${i}" value="${proj.chipColor || '#00c8ff'}" /><input type="text" id="proj-chipColor-hex-${i}" value="${proj.chipColor || ''}" maxlength="7" placeholder="default" /></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+              <input type="checkbox" id="proj-chipColor-enabled-${i}" style="width:auto;cursor:pointer" ${proj.chipColor ? 'checked' : ''} />
+              <input type="color" id="proj-chipColor-${i}" value="${proj.chipColor || '#00c8ff'}" style="width:44px;height:32px;padding:2px;border-radius:6px;border:1px solid var(--border);background:var(--bg);cursor:pointer" />
+              <span style="font-size:0.8rem;color:var(--text-muted)">Custom colour</span>
+            </div>
           </div>
         </div>
       </div>`;
@@ -693,7 +733,6 @@ function renderProjects() {
         e.preventDefault();
       }
     };
-    bindColorPair(`proj-chipColor-${i}`, `proj-chipColor-hex-${i}`);
   });
 }
 
@@ -704,7 +743,8 @@ function collectProjectData() {
     desc:      val(`proj-desc-${i}`),
     features:  val(`proj-features-${i}`).split('\n').map(s => s.trim()).filter(Boolean),
     chips:     getChips(`proj-chips-${i}`),
-    chipColor: val(`proj-chipColor-hex-${i}`)
+    chipColor: document.getElementById(`proj-chipColor-enabled-${i}`)?.checked
+                 ? (document.getElementById(`proj-chipColor-${i}`)?.value || '') : ''
   }));
 }
 
@@ -752,9 +792,13 @@ function renderSkills() {
             <input type="text" id="skill-pill-input-${i}" placeholder="Add skill…" />
           </div>
         </div>
-        <div class="field" style="margin-top:0.5rem">
+        <div class="field" style="margin-top:0.75rem">
           <label>Pill colour</label>
-          <div class="color-field"><input type="color" id="skill-pillColor-${i}" value="${group.pillColor || '#8892a4'}" /><input type="text" id="skill-pillColor-hex-${i}" value="${group.pillColor || ''}" maxlength="7" placeholder="default" /></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+            <input type="checkbox" id="skill-pillColor-enabled-${i}" style="width:auto;cursor:pointer" ${group.pillColor ? 'checked' : ''} />
+            <input type="color" id="skill-pillColor-${i}" value="${group.pillColor || '#8892a4'}" style="width:44px;height:32px;padding:2px;border-radius:6px;border:1px solid var(--border);background:var(--bg);cursor:pointer" />
+            <span style="font-size:0.8rem;color:var(--text-muted)">Custom colour</span>
+          </div>
         </div>
       </div>`;
   });
@@ -768,7 +812,6 @@ function renderSkills() {
         e.preventDefault();
       }
     };
-    bindColorPair(`skill-pillColor-${i}`, `skill-pillColor-hex-${i}`);
   });
 }
 
@@ -877,7 +920,8 @@ async function saveSection(section) {
       sectionTitle: val('about-sectionTitle'),
       paragraphs:   siteData.about.paragraphs.map((_, i) => val(`about-para-${i}`)),
       tags:         getChips('about-tags-editor'),
-      tagColor:     val('about-tagColor-hex'),
+      tagColor:     document.getElementById('about-tagColor-enabled')?.checked
+                      ? (document.getElementById('about-tagColor')?.value || '') : '',
       locations:    siteData.about.locations.map((_, i) => ({
         icon:    val(`loc-icon-${i}`),
         country: val(`loc-country-${i}`),
@@ -899,7 +943,8 @@ async function saveSection(section) {
       icon:      val(`skill-icon-${i}`),
       title:     val(`skill-title-${i}`),
       pills:     getChips(`skill-pills-${i}`),
-      pillColor: val(`skill-pillColor-hex-${i}`)
+      pillColor: document.getElementById(`skill-pillColor-enabled-${i}`)?.checked
+                   ? (document.getElementById(`skill-pillColor-${i}`)?.value || '') : ''
     }));
   }
 
@@ -1034,6 +1079,36 @@ function toast(msg, type) {
 }
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => toast('Path copied!', 'ok'));
+}
+
+// ── BLOG PAGE ────────────────────────────────────────────────────────────────
+async function loadBlogPage() {
+  const res  = await fetch('/api/blog-page');
+  const data = await res.json();
+  document.getElementById('blog-page-label').value   = data.label   || '';
+  document.getElementById('blog-page-heading').value = data.heading || '';
+  document.getElementById('blog-page-desc').value    = data.desc    || '';
+}
+
+async function saveBlogPage() {
+  const payload = {
+    label:   document.getElementById('blog-page-label').value.trim(),
+    heading: document.getElementById('blog-page-heading').value.trim(),
+    desc:    document.getElementById('blog-page-desc').value.trim()
+  };
+  const res  = await fetch('/api/blog-page', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+  const data = await res.json();
+  const statusEl = document.getElementById('status-blog-page');
+  if (data.ok) {
+    toast('Blog page saved!', 'ok');
+    statusEl.textContent = '✓ Saved';
+    statusEl.className = 'status-msg ok';
+    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+  } else {
+    toast('Error: ' + data.error, 'err');
+    statusEl.textContent = '✗ ' + data.error;
+    statusEl.className = 'status-msg err';
+  }
 }
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
