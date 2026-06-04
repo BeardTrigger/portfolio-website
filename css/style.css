@@ -390,7 +390,7 @@ section { padding: 100px 0; }
 .timeline::before {
   content: '';
   position: absolute;
-  left: 20px;
+  left: 28px;
   top: 0;
   bottom: 0;
   width: 1px;
@@ -524,6 +524,7 @@ section { padding: 100px 0; }
 .project-card h3 {
   font-size: 1.4rem;
   margin-bottom: 14px;
+  text-align: center;
 }
 
 .project-card p {
@@ -882,7 +883,7 @@ section { padding: 100px 0; }
   .nav-links.open { display: flex; }
   .nav-links a { font-size: 1.1rem; padding: 10px 0; color: var(--text); border-bottom: 1px solid var(--border); }
   .nav-toggle { display: flex; }
-  .timeline::before { left: 12px; }
+  .timeline::before { left: 20px; }
   .timeline-item { grid-template-columns: 40px 1fr; }
   .hero-actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
