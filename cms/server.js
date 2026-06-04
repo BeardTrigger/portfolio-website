@@ -297,7 +297,12 @@ app.post('/api/content', (req, res) => {
     if (contactLinks) {
       $('.contact-link').each((i, el) => {
         if (!contactLinks[i]) return;
-        $(el).attr('href', contactLinks[i].href);
+        // Auto-prefix mailto: if the href looks like a bare email address
+        let href = contactLinks[i].href;
+        if (href && href.includes('@') && !href.startsWith('mailto:') && !href.startsWith('http')) {
+          href = 'mailto:' + href;
+        }
+        $(el).attr('href', href);
         // preserve the SVG icon, update only the text node
         const svg = $(el).find('svg');
         $(el).contents().filter((_, n) => n.type === 'text').remove();
