@@ -517,7 +517,14 @@ app.post('/api/deploy', async (req, res) => {
     return res.json({ ok: false, error: 'git commit failed: ' + (e.stderr || e.stdout || 'unknown error') });
   }
 
-  // Step 3: git push
+  // Step 3: git pull --rebase (sync any remote changes first)
+  try {
+    await runGit(['pull', '--rebase']);
+  } catch (e) {
+    return res.json({ ok: false, error: 'git pull failed: ' + (e.stderr || e.stdout || (e.err && e.err.message) || 'unknown error') });
+  }
+
+  // Step 4: git push
   try {
     const { stdout, stderr } = await runGit(['push']);
     const output = stdout || stderr || 'Pushed to GitHub successfully.';
