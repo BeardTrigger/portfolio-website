@@ -2,14 +2,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #0d0d14;
-  --surface:   #13131f;
-  --card:      #1a1a2e;
-  --border:    #2a2a40;
-  --accent:    #00c8ff;
-  --accent2:   #ff6b35;
-  --text:      #f0f0f0;
-  --muted:     #8892a4;
+  --bg:        #05070a;
+  --surface:   #121921;
+  --card:      #2a3441;
+  --border:    #0a2d39;
+  --accent:    #0fb9d7;
+  --accent2:   #38e4ff;
+  --text:      #e7e9f3;
+  --muted:     #83b7ba;
   --radius:    8px;
   --nav-h:     68px;
   --max-w:     1100px;
@@ -418,7 +418,7 @@ section { padding: 100px 0; }
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--dot-color, var(--accent));
   box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px rgba(0,200,255,0.25);
   flex-shrink: 0;
 }

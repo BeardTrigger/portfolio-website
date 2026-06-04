@@ -131,6 +131,11 @@
     .asset-item p { color: var(--text-muted); word-break: break-all; }
     .copy-path { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 0.72rem; margin-top: 4px; }
 
+    /* ── Color field (swatch + hex input) ── */
+    .color-field { display: flex; align-items: center; gap: 8px; }
+    .color-field input[type="color"] { width: 40px; height: 36px; padding: 2px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; flex-shrink: 0; }
+    .color-field input[type="text"] { flex: 1; font-family: monospace; }
+
     /* ── Toast ── */
     #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1.25rem; font-size: 0.875rem; opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; z-index: 9999; max-width: 320px; }
     #toast.show { opacity: 1; transform: none; }
@@ -160,6 +165,7 @@
     <div class="nav-item" data-tab="projects">      <span class="icon">🎮</span> Projects</div>
     <div class="nav-item" data-tab="skills">        <span class="icon">⚙️</span> Skills</div>
     <div class="nav-item" data-tab="contact">       <span class="icon">✉️</span> Contact</div>
+    <div class="nav-item" data-tab="styles">        <span class="icon">🎨</span> Styles</div>
 
     <div class="nav-section">Blog</div>
     <div class="nav-item" data-tab="blog-list">     <span class="icon">📋</span> Posts</div>
@@ -221,6 +227,10 @@
         <div class="card-title">Skill tags <span style="color:var(--text-muted);font-weight:400;font-size:0.75rem">(type and press Enter)</span></div>
         <div class="chip-editor" id="about-tags-editor">
           <input type="text" id="about-tag-input" placeholder="Add tag…" />
+        </div>
+        <div class="field" style="margin-top:0.75rem">
+          <label>Tag colour</label>
+          <div class="color-field"><input type="color" id="about-tagColor" value="#00c8ff" /><input type="text" id="about-tagColor-hex" maxlength="7" placeholder="default" /></div>
         </div>
       </div>
       <div class="card">
@@ -290,6 +300,43 @@
       <div class="save-bar">
         <button class="btn btn-primary" onclick="saveSection('contact')">Save Contact</button>
         <span class="status-msg" id="status-contact"></span>
+      </div>
+    </div>
+
+    <!-- STYLES -->
+    <div class="tab-panel" id="tab-styles">
+      <div class="page-header">
+        <h2>Styles</h2>
+        <p>Global theme colours and typography. Changes apply site-wide instantly on save.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Background &amp; Surface colours</div>
+        <div class="field-row">
+          <div class="field"><label>Page background</label><div class="color-field"><input type="color" id="style-bg" /><input type="text" id="style-bg-hex" maxlength="7" /></div></div>
+          <div class="field"><label>Section background</label><div class="color-field"><input type="color" id="style-surface" /><input type="text" id="style-surface-hex" maxlength="7" /></div></div>
+          <div class="field"><label>Card background</label><div class="color-field"><input type="color" id="style-card" /><input type="text" id="style-card-hex" maxlength="7" /></div></div>
+          <div class="field"><label>Border colour</label><div class="color-field"><input type="color" id="style-border" /><input type="text" id="style-border-hex" maxlength="7" /></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Accent &amp; Text colours</div>
+        <div class="field-row">
+          <div class="field"><label>Accent (cyan)</label><div class="color-field"><input type="color" id="style-accent" /><input type="text" id="style-accent-hex" maxlength="7" /></div></div>
+          <div class="field"><label>Accent 2 (orange)</label><div class="color-field"><input type="color" id="style-accent2" /><input type="text" id="style-accent2-hex" maxlength="7" /></div></div>
+          <div class="field"><label>Primary text</label><div class="color-field"><input type="color" id="style-text" /><input type="text" id="style-text-hex" maxlength="7" /></div></div>
+          <div class="field"><label>Muted text</label><div class="color-field"><input type="color" id="style-muted" /><input type="text" id="style-muted-hex" maxlength="7" /></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Layout</div>
+        <div class="field-row">
+          <div class="field"><label>Corner radius</label><input type="text" id="style-radius" style="max-width:120px" /></div>
+          <div class="field"><label>Max page width</label><input type="text" id="style-max-w" style="max-width:120px" /></div>
+        </div>
+      </div>
+      <div class="save-bar">
+        <button class="btn btn-primary" onclick="saveStyles()">Save Styles</button>
+        <span class="status-msg" id="status-styles"></span>
       </div>
     </div>
 
@@ -389,6 +436,7 @@ async function init() {
   await loadContent();
   await loadBlogPosts();
   await loadAssets();
+  await loadStyles();
 }
 
 async function loadContent() {
@@ -456,6 +504,11 @@ function renderAbout() {
   const editor = document.getElementById('about-tags-editor');
   editor.querySelectorAll('.chip-tag').forEach(c => c.remove());
   a.tags.forEach(tag => addChipToEditor('about-tags-editor', tag));
+  if (a.tagColor) {
+    document.getElementById('about-tagColor').value     = a.tagColor;
+    document.getElementById('about-tagColor-hex').value = a.tagColor;
+  }
+  bindColorPair('about-tagColor', 'about-tagColor-hex');
 
   const tagInput = document.getElementById('about-tag-input');
   tagInput.onkeydown = e => {
@@ -516,6 +569,10 @@ function renderExperience() {
               <input type="text" id="exp-chip-input-${i}" placeholder="Add chip…" />
             </div>
           </div>
+          <div class="field-row" style="margin-top:0.5rem">
+            <div class="field"><label>Timeline dot colour</label><div class="color-field"><input type="color" id="exp-dotColor-${i}" value="${exp.dotColor || '#00c8ff'}" /><input type="text" id="exp-dotColor-hex-${i}" value="${exp.dotColor || ''}" maxlength="7" placeholder="default" /></div></div>
+            <div class="field"><label>Chip colour</label><div class="color-field"><input type="color" id="exp-chipColor-${i}" value="${exp.chipColor || '#00c8ff'}" /><input type="text" id="exp-chipColor-hex-${i}" value="${exp.chipColor || ''}" maxlength="7" placeholder="default" /></div></div>
+          </div>
         </div>
       </div>`;
   });
@@ -529,6 +586,8 @@ function renderExperience() {
         e.preventDefault();
       }
     };
+    bindColorPair(`exp-dotColor-${i}`,  `exp-dotColor-hex-${i}`);
+    bindColorPair(`exp-chipColor-${i}`, `exp-chipColor-hex-${i}`);
   });
 }
 
@@ -544,12 +603,14 @@ function moveExpEntry(i, dir) {
 
 function collectExpData() {
   return siteData.experience.map((exp, i) => ({
-    date:    val(`exp-date-${i}`),
-    company: val(`exp-company-${i}`),
-    title:   val(`exp-title-${i}`),
-    paras:   exp.paras.map((_, j) => val(`exp-para-${i}-${j}`)),
-    chips:   getChips(`exp-chips-${i}`),
-    hidden:  exp.hidden || false
+    date:      val(`exp-date-${i}`),
+    company:   val(`exp-company-${i}`),
+    title:     val(`exp-title-${i}`),
+    paras:     exp.paras.map((_, j) => val(`exp-para-${i}-${j}`)),
+    chips:     getChips(`exp-chips-${i}`),
+    hidden:    exp.hidden || false,
+    dotColor:  val(`exp-dotColor-hex-${i}`),
+    chipColor: val(`exp-chipColor-hex-${i}`)
   }));
 }
 
@@ -615,6 +676,10 @@ function renderProjects() {
               <input type="text" id="proj-chip-input-${i}" placeholder="Add chip…" />
             </div>
           </div>
+          <div class="field" style="margin-top:0.5rem">
+            <label>Chip colour</label>
+            <div class="color-field"><input type="color" id="proj-chipColor-${i}" value="${proj.chipColor || '#00c8ff'}" /><input type="text" id="proj-chipColor-hex-${i}" value="${proj.chipColor || ''}" maxlength="7" placeholder="default" /></div>
+          </div>
         </div>
       </div>`;
   });
@@ -628,16 +693,18 @@ function renderProjects() {
         e.preventDefault();
       }
     };
+    bindColorPair(`proj-chipColor-${i}`, `proj-chipColor-hex-${i}`);
   });
 }
 
 function collectProjectData() {
   return siteData.projects.map((proj, i) => ({
-    type:     val(`proj-type-${i}`),
-    title:    val(`proj-title-${i}`),
-    desc:     val(`proj-desc-${i}`),
-    features: val(`proj-features-${i}`).split('\n').map(s => s.trim()).filter(Boolean),
-    chips:    getChips(`proj-chips-${i}`)
+    type:      val(`proj-type-${i}`),
+    title:     val(`proj-title-${i}`),
+    desc:      val(`proj-desc-${i}`),
+    features:  val(`proj-features-${i}`).split('\n').map(s => s.trim()).filter(Boolean),
+    chips:     getChips(`proj-chips-${i}`),
+    chipColor: val(`proj-chipColor-hex-${i}`)
   }));
 }
 
@@ -685,6 +752,10 @@ function renderSkills() {
             <input type="text" id="skill-pill-input-${i}" placeholder="Add skill…" />
           </div>
         </div>
+        <div class="field" style="margin-top:0.5rem">
+          <label>Pill colour</label>
+          <div class="color-field"><input type="color" id="skill-pillColor-${i}" value="${group.pillColor || '#8892a4'}" /><input type="text" id="skill-pillColor-hex-${i}" value="${group.pillColor || ''}" maxlength="7" placeholder="default" /></div>
+        </div>
       </div>`;
   });
   siteData.skills.forEach((group, i) => {
@@ -697,6 +768,7 @@ function renderSkills() {
         e.preventDefault();
       }
     };
+    bindColorPair(`skill-pillColor-${i}`, `skill-pillColor-hex-${i}`);
   });
 }
 
@@ -805,6 +877,7 @@ async function saveSection(section) {
       sectionTitle: val('about-sectionTitle'),
       paragraphs:   siteData.about.paragraphs.map((_, i) => val(`about-para-${i}`)),
       tags:         getChips('about-tags-editor'),
+      tagColor:     val('about-tagColor-hex'),
       locations:    siteData.about.locations.map((_, i) => ({
         icon:    val(`loc-icon-${i}`),
         country: val(`loc-country-${i}`),
@@ -823,9 +896,10 @@ async function saveSection(section) {
 
   if (section === 'skills') {
     payload.skills = siteData.skills.map((_, i) => ({
-      icon:  val(`skill-icon-${i}`),
-      title: val(`skill-title-${i}`),
-      pills: getChips(`skill-pills-${i}`)
+      icon:      val(`skill-icon-${i}`),
+      title:     val(`skill-title-${i}`),
+      pills:     getChips(`skill-pills-${i}`),
+      pillColor: val(`skill-pillColor-hex-${i}`)
     }));
   }
 
@@ -960,6 +1034,75 @@ function toast(msg, type) {
 }
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => toast('Path copied!', 'ok'));
+}
+
+// ── STYLES ────────────────────────────────────────────────────────────────────
+const COLOR_VARS = ['bg','surface','card','border','accent','accent2','text','muted'];
+const TEXT_VARS  = ['radius','max-w'];
+
+async function loadStyles() {
+  const res  = await fetch('/api/styles');
+  const vars = await res.json();
+
+  COLOR_VARS.forEach(key => {
+    const safeKey = key.replace('-','');  // max-w → maxw for element IDs
+    const colorEl = document.getElementById(`style-${safeKey}`);
+    const hexEl   = document.getElementById(`style-${safeKey}-hex`);
+    const val     = vars[key] || '';
+    if (colorEl) colorEl.value = val.startsWith('#') ? val : '#000000';
+    if (hexEl)   hexEl.value   = val;
+    // Sync: colour picker → hex input
+    colorEl?.addEventListener('input', () => { if (hexEl) hexEl.value = colorEl.value; });
+    // Sync: hex input → colour picker
+    hexEl?.addEventListener('input', () => {
+      if (/^#[0-9a-fA-F]{6}$/.test(hexEl.value)) colorEl.value = hexEl.value;
+    });
+  });
+
+  TEXT_VARS.forEach(key => {
+    const safeKey = key.replace('-','');
+    const el = document.getElementById(`style-${safeKey}`);
+    if (el) el.value = vars[key] || '';
+  });
+}
+
+async function saveStyles() {
+  const payload = {};
+  COLOR_VARS.forEach(key => {
+    const safeKey = key.replace('-','');
+    const hexEl = document.getElementById(`style-${safeKey}-hex`);
+    if (hexEl && hexEl.value) payload[key] = hexEl.value;
+  });
+  TEXT_VARS.forEach(key => {
+    const safeKey = key.replace('-','');
+    const el = document.getElementById(`style-${safeKey}`);
+    if (el && el.value) payload[key] = el.value;
+  });
+
+  const res  = await fetch('/api/styles', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+  const data = await res.json();
+  const statusEl = document.getElementById('status-styles');
+  if (data.ok) {
+    toast('Styles saved!', 'ok');
+    statusEl.textContent = '✓ Saved';
+    statusEl.className = 'status-msg ok';
+    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+  } else {
+    toast('Error: ' + data.error, 'err');
+    statusEl.textContent = '✗ ' + data.error;
+    statusEl.className = 'status-msg err';
+  }
+}
+
+// Wire up colour↔hex sync for per-element pickers added dynamically
+function bindColorPair(colorId, hexId) {
+  const colorEl = document.getElementById(colorId);
+  const hexEl   = document.getElementById(hexId);
+  if (!colorEl || !hexEl) return;
+  colorEl.addEventListener('input', () => { hexEl.value = colorEl.value; });
+  hexEl.addEventListener('input', () => {
+    if (/^#[0-9a-fA-F]{6}$/.test(hexEl.value)) colorEl.value = hexEl.value;
+  });
 }
 
 // ── DEPLOY ────────────────────────────────────────────────────────────────────

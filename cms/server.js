@@ -14,6 +14,7 @@ const INDEX_HTML = path.join(SITE_ROOT, 'index.html');
 const BLOG_INDEX = path.join(SITE_ROOT, 'blog', 'index.html');
 const BLOG_POSTS = path.join(SITE_ROOT, 'blog', 'posts');
 const ASSETS_DIR = path.join(SITE_ROOT, 'assets');
+const CSS_FILE   = path.join(SITE_ROOT, 'css', 'style.css');
 
 // Ensure assets dir exists
 if (!fs.existsSync(ASSETS_DIR)) fs.mkdirSync(ASSETS_DIR, { recursive: true });
@@ -39,6 +40,21 @@ function readHtml(filePath) {
 
 function writeHtml(filePath, html) {
   fs.writeFileSync(filePath, html, 'utf8');
+}
+
+// Convert hex colour to rgba() string
+function hexToRgba(hex, alpha) {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.slice(0,2), 16);
+  const g = parseInt(h.slice(2,4), 16);
+  const b = parseInt(h.slice(4,6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+// Build inline style string for a chip/pill given a hex colour
+function chipStyle(hex) {
+  if (!hex) return '';
+  return ` style="background:${hexToRgba(hex, 0.1)};border-color:${hexToRgba(hex, 0.25)};color:${hex}"`;
 }
 
 // ─── GET /api/content  ────────────────────────────────────────────────────────
@@ -69,6 +85,7 @@ app.get('/api/content', (req, res) => {
       sectionTitle: $('.about-text .section-title').text().trim(),
       paragraphs:   [],
       tags:         [],
+      tagColor:     $('.about-tags').attr('data-color') || '',
       locations:    []
     };
     $('.about-text > p').each((i, el) => {
@@ -93,13 +110,16 @@ app.get('/api/content', (req, res) => {
       const paras = [];
       $(el).find('.timeline-content > p').each((j, p) => paras.push($(p).html().trim()));
       const styleAttr = $(el).attr('style') || '';
+      const dotColorMatch = styleAttr.match(/--dot-color:\s*([^;'"]+)/);
       experience.push({
-        date:    $(el).find('.timeline-date').text().trim(),
-        company: $(el).find('.timeline-company').text().trim(),
-        title:   $(el).find('h3').text().trim(),
+        date:      $(el).find('.timeline-date').text().trim(),
+        company:   $(el).find('.timeline-company').text().trim(),
+        title:     $(el).find('h3').text().trim(),
         paras,
         chips,
-        hidden:  styleAttr.includes('display:none') || styleAttr.includes('display: none')
+        hidden:    styleAttr.includes('display:none') || styleAttr.includes('display: none'),
+        dotColor:  dotColorMatch ? dotColorMatch[1].trim() : '',
+        chipColor: $(el).find('.timeline-tags').attr('data-color') || ''
       });
     });
 
@@ -111,11 +131,12 @@ app.get('/api/content', (req, res) => {
       const chips = [];
       $(el).find('.chip').each((j, c) => chips.push($(c).text().trim()));
       projects.push({
-        type:     $(el).find('.project-type').text().trim(),
-        title:    $(el).find('h3').text().trim(),
-        desc:     $(el).find('> p').html().trim(),
+        type:      $(el).find('.project-type').text().trim(),
+        title:     $(el).find('h3').text().trim(),
+        desc:      $(el).find('> p').html().trim(),
         features,
-        chips
+        chips,
+        chipColor: $(el).find('.timeline-tags').attr('data-color') || ''
       });
     });
 
@@ -125,9 +146,10 @@ app.get('/api/content', (req, res) => {
       const pills = [];
       $(el).find('.skill-pill').each((j, p) => pills.push($(p).text().trim()));
       skills.push({
-        icon:  $(el).find('.skill-group-icon').text().trim(),
-        title: $(el).find('h3').text().trim(),
-        pills
+        icon:      $(el).find('.skill-group-icon').text().trim(),
+        title:     $(el).find('h3').text().trim(),
+        pills,
+        pillColor: $(el).find('.skill-list').attr('data-color') || ''
       });
     });
 
@@ -184,8 +206,11 @@ app.post('/api/content', (req, res) => {
 
       if (about.tags) {
         const tagsContainer = $('.about-tags');
+        if (about.tagColor) tagsContainer.attr('data-color', about.tagColor);
+        else tagsContainer.removeAttr('data-color');
+        const tStyle = about.tagColor ? ` style="border-color:${about.tagColor};color:${about.tagColor}"` : '';
         tagsContainer.empty();
-        about.tags.forEach(tag => tagsContainer.append(`<span class="tag">${tag}</span>`));
+        about.tags.forEach(tag => tagsContainer.append(`<span class="tag"${tStyle}>${tag}</span>`));
       }
 
       if (about.locations) {
@@ -203,11 +228,16 @@ app.post('/api/content', (req, res) => {
       const timeline = $('.timeline');
       timeline.empty();
       experience.forEach(exp => {
-        const hiddenStyle = exp.hidden ? ' style="display:none"' : '';
-        const parasHtml   = (exp.paras || ['']).map(p => `\n          <p>${p}</p>`).join('');
-        const chipsHtml   = (exp.chips || []).map(c => `<span class="chip">${c}</span>`).join('\n            ');
+        const inlineStyles = [];
+        if (exp.hidden)   inlineStyles.push('display:none');
+        if (exp.dotColor) inlineStyles.push(`--dot-color: ${exp.dotColor}`);
+        const itemStyle    = inlineStyles.length ? ` style="${inlineStyles.join('; ')}"` : '';
+        const parasHtml    = (exp.paras || ['']).map(p => `\n          <p>${p}</p>`).join('');
+        const cStyle       = chipStyle(exp.chipColor);
+        const chipColorAttr = exp.chipColor ? ` data-color="${exp.chipColor}"` : '';
+        const chipsHtml    = (exp.chips || []).map(c => `<span class="chip"${cStyle}>${c}</span>`).join('\n            ');
         timeline.append(`
-      <div class="timeline-item fade-in"${hiddenStyle}>
+      <div class="timeline-item fade-in"${itemStyle}>
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <div class="timeline-meta">
@@ -215,7 +245,7 @@ app.post('/api/content', (req, res) => {
             <span class="timeline-company">${exp.company}</span>
           </div>
           <h3>${exp.title}</h3>${parasHtml}
-          <div class="timeline-tags">
+          <div class="timeline-tags"${chipColorAttr}>
             ${chipsHtml}
           </div>
         </div>
@@ -228,8 +258,10 @@ app.post('/api/content', (req, res) => {
       const grid = $('.projects-grid');
       grid.empty();
       projects.forEach(proj => {
-        const featuresHtml = (proj.features || []).map(f => `\n          <div class="feature-item">${f}</div>`).join('');
-        const chipsHtml    = (proj.chips || []).map(c => `<span class="chip">${c}</span>`).join('\n            ');
+        const featuresHtml  = (proj.features || []).map(f => `\n          <div class="feature-item">${f}</div>`).join('');
+        const cStyle        = chipStyle(proj.chipColor);
+        const chipColorAttr = proj.chipColor ? ` data-color="${proj.chipColor}"` : '';
+        const chipsHtml     = (proj.chips || []).map(c => `<span class="chip"${cStyle}>${c}</span>`).join('\n            ');
         grid.append(`
       <div class="project-card fade-in">
         <div class="project-type">${proj.type}</div>
@@ -237,7 +269,7 @@ app.post('/api/content', (req, res) => {
         <p>${proj.desc}</p>
         <div class="project-features">${featuresHtml}
         </div>
-        <div class="timeline-tags">
+        <div class="timeline-tags"${chipColorAttr}>
           ${chipsHtml}
         </div>
       </div>`);
@@ -250,9 +282,14 @@ app.post('/api/content', (req, res) => {
         if (!skills[i]) return;
         $(el).find('.skill-group-icon').text(skills[i].icon);
         $(el).find('h3').text(skills[i].title);
-        const list = $(el).find('.skill-list');
+        const list  = $(el).find('.skill-list');
+        const pStyle = skills[i].pillColor
+          ? ` style="border-color:${skills[i].pillColor};color:${skills[i].pillColor}"`
+          : '';
+        if (skills[i].pillColor) list.attr('data-color', skills[i].pillColor);
+        else list.removeAttr('data-color');
         list.empty();
-        skills[i].pills.forEach(p => list.append(`<span class="skill-pill">${p}</span>`));
+        skills[i].pills.forEach(p => list.append(`<span class="skill-pill"${pStyle}>${p}</span>`));
       });
     }
 
@@ -478,6 +515,45 @@ app.get('/api/assets', (req, res) => {
       ? fs.readdirSync(ASSETS_DIR).map(f => ({ name: f, path: `../assets/${f}` }))
       : [];
     res.json(files);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── GET /api/styles  ────────────────────────────────────────────────────────
+// Returns CSS :root variables as a key/value object
+
+app.get('/api/styles', (req, res) => {
+  try {
+    const css  = fs.readFileSync(CSS_FILE, 'utf8');
+    const vars = {};
+    const rootMatch = css.match(/:root\s*\{([^}]+)\}/);
+    if (rootMatch) {
+      rootMatch[1].split('\n').forEach(line => {
+        const m = line.match(/--([a-z0-9-]+)\s*:\s*([^;]+);/);
+        if (m) vars[m[1]] = m[2].trim();
+      });
+    }
+    res.json(vars);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── POST /api/styles  ───────────────────────────────────────────────────────
+// Writes updated CSS variable values back to style.css
+
+app.post('/api/styles', (req, res) => {
+  try {
+    let css = fs.readFileSync(CSS_FILE, 'utf8');
+    Object.entries(req.body).forEach(([key, value]) => {
+      css = css.replace(
+        new RegExp(`(--${key}\\s*:\\s*)[^;]+;`),
+        `$1${value};`
+      );
+    });
+    fs.writeFileSync(CSS_FILE, css, 'utf8');
+    res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
