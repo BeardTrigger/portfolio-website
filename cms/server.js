@@ -488,9 +488,9 @@ app.get('/api/assets', (req, res) => {
 
 function runGit(args) {
   return new Promise((resolve, reject) => {
-    execFile('git', args, { cwd: SITE_ROOT }, (err, stdout, stderr) => {
-      if (err) reject({ err, stdout, stderr });
-      else resolve({ stdout, stderr });
+    execFile('git', args, { cwd: SITE_ROOT, timeout: 30000 }, (err, stdout, stderr) => {
+      if (err) reject({ err, stdout: stdout || '', stderr: stderr || '' });
+      else resolve({ stdout: stdout || '', stderr: stderr || '' });
     });
   });
 }
@@ -499,25 +499,31 @@ app.post('/api/deploy', async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'Commit message required' });
 
+  // Step 1: git add .
   try {
     await runGit(['add', '.']);
-
-    try {
-      await runGit(['commit', '-m', message]);
-    } catch ({ stdout = '', stderr = '' }) {
-      if ((stdout + stderr).includes('nothing to commit')) {
-        return res.json({ ok: true, output: 'Nothing new to commit — already up to date.' });
-      }
-      return res.json({ ok: false, error: stderr || stdout });
-    }
-
-    const { stdout } = await runGit(['push']);
-    res.json({ ok: true, output: stdout || 'Pushed to GitHub successfully.' });
-
   } catch (e) {
-    const stderr = (e && e.stderr) || '';
-    const err    = (e && e.err) || null;
-    res.json({ ok: false, error: stderr || (err && err.message) || 'Unknown git error' });
+    return res.json({ ok: false, error: 'git add failed: ' + ((e.stderr || e.err && e.err.message) || 'unknown error') });
+  }
+
+  // Step 2: git commit
+  try {
+    await runGit(['commit', '-m', message]);
+  } catch (e) {
+    const output = (e.stdout || '') + (e.stderr || '');
+    if (output.includes('nothing to commit')) {
+      return res.json({ ok: true, output: 'Nothing new to commit — already up to date.' });
+    }
+    return res.json({ ok: false, error: 'git commit failed: ' + (e.stderr || e.stdout || 'unknown error') });
+  }
+
+  // Step 3: git push
+  try {
+    const { stdout, stderr } = await runGit(['push']);
+    const output = stdout || stderr || 'Pushed to GitHub successfully.';
+    res.json({ ok: true, output });
+  } catch (e) {
+    res.json({ ok: false, error: 'git push failed: ' + (e.stderr || e.stdout || (e.err && e.err.message) || 'unknown error') });
   }
 });
 
