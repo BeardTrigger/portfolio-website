@@ -65,11 +65,13 @@ app.get('/api/content', (req, res) => {
     const $ = cheerio.load(readHtml(INDEX_HTML), { decodeEntities: false });
 
     // ── Hero ──
+    const eyebrowStyle = $('.hero-eyebrow').attr('style') || '';
     const hero = {
-      eyebrow: $('.hero-eyebrow').text().trim(),
-      name: $('.hero-left h1').html().trim(),
+      eyebrow:        $('.hero-eyebrow').text().trim(),
+      eyebrowVisible: !eyebrowStyle.includes('display:none') && !eyebrowStyle.includes('display: none'),
+      name:  $('.hero-left h1').html().trim(),
       title: $('.hero-title').text().trim(),
-      desc: $('.hero-desc').html().trim(),
+      desc:  $('.hero-desc').html().trim(),
       stats: []
     };
     $('.stat-card').each((i, el) => {
@@ -179,6 +181,10 @@ app.post('/api/content', (req, res) => {
     // ── Hero ──
     if (hero) {
       if (hero.eyebrow !== undefined) $('.hero-eyebrow').text(hero.eyebrow);
+      if (hero.eyebrowVisible !== undefined) {
+        if (hero.eyebrowVisible) $('.hero-eyebrow').removeAttr('style');
+        else $('.hero-eyebrow').attr('style', 'display:none');
+      }
       if (hero.name    !== undefined) $('.hero-left h1').html(hero.name);
       if (hero.title   !== undefined) $('.hero-title').text(hero.title);
       if (hero.desc    !== undefined) $('.hero-desc').html(hero.desc);

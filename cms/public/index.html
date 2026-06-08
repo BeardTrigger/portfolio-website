@@ -197,7 +197,14 @@
       </div>
       <div class="card">
         <div class="card-title">Banner text</div>
-        <div class="field"><label>Eyebrow (small text above name)</label><input type="text" id="hero-eyebrow" /></div>
+        <div class="field">
+          <label>Eyebrow (small text above name)</label>
+          <input type="text" id="hero-eyebrow" />
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+            <input type="checkbox" id="hero-eyebrow-visible" style="width:auto;cursor:pointer" checked />
+            <label for="hero-eyebrow-visible" style="margin:0;font-size:0.875rem;color:var(--text);cursor:pointer">Show on page</label>
+          </div>
+        </div>
         <div class="field-row">
           <div class="field"><label>Title (under name)</label><input type="text" id="hero-title" /></div>
         </div>
@@ -496,9 +503,10 @@ function renderAll() {
 // ── HERO ──────────────────────────────────────────────────────────────────────
 function renderHero() {
   const h = siteData.hero;
-  document.getElementById('hero-eyebrow').value = h.eyebrow || '';
-  document.getElementById('hero-title').value   = h.title   || '';
-  document.getElementById('hero-desc').value    = stripTags(h.desc || '');
+  document.getElementById('hero-eyebrow').value          = h.eyebrow || '';
+  document.getElementById('hero-eyebrow-visible').checked = h.eyebrowVisible !== false;
+  document.getElementById('hero-title').value             = h.title   || '';
+  document.getElementById('hero-desc').value              = stripTags(h.desc || '');
 
   const statsEl = document.getElementById('hero-stats');
   statsEl.innerHTML = '';
@@ -904,9 +912,10 @@ async function saveSection(section) {
 
   if (section === 'hero') {
     payload.hero = {
-      eyebrow: val('hero-eyebrow'),
-      title:   val('hero-title'),
-      desc:    val('hero-desc'),
+      eyebrow:        val('hero-eyebrow'),
+      eyebrowVisible: document.getElementById('hero-eyebrow-visible').checked,
+      title:          val('hero-title'),
+      desc:           val('hero-desc'),
       stats:   siteData.hero.stats.map((_, i) => ({
         number: val(`stat-number-${i}`),
         label:  val(`stat-label-${i}`),
