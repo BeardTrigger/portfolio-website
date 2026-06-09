@@ -888,4 +888,19 @@ section { padding: 100px 0; }
   .timeline-item { grid-template-columns: 40px 1fr; }
   .hero-actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
+
+  /* Hero stat cards: stack vertically on small screens */
+  .hero-stats { flex-direction: column; }
+  .stat-card { min-width: 0; width: 100%; }
+
+  /* Featured blog card: collapse to single column on mobile */
+  .blog-grid > a.blog-card[style*="grid-template-columns"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .blog-grid > a.blog-card[style*="grid-template-columns"] .blog-card-img-placeholder {
+    aspect-ratio: 16/9 !important;
+    min-height: 0 !important;
+    border-radius: 12px 12px 0 0 !important;
+  }
 }
