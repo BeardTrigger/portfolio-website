@@ -879,10 +879,20 @@ section { padding: 100px 0; }
 
 @media (max-width: 640px) {
   section { padding: 72px 0; }
-  .nav-links { display: none; gap: 0; flex-direction: column; background: var(--surface);
-    position: fixed; inset: var(--nav-h) 0 0; padding: 32px 24px; border-top: 1px solid var(--border); }
+
+  /* Nav: let it expand downward when menu is open instead of using a
+     fixed-position overlay (which breaks inside a backdrop-filter parent) */
+  .nav { height: auto; background: var(--surface); backdrop-filter: none; }
+  .nav-inner { height: var(--nav-h); }
+  .nav-links {
+    display: none; gap: 0; flex-direction: column;
+    position: static; inset: unset;
+    background: transparent;
+    padding: 0 24px 28px;
+    border-top: 1px solid var(--border);
+  }
   .nav-links.open { display: flex; }
-  .nav-links a { font-size: 1.1rem; padding: 10px 0; color: var(--text); border-bottom: 1px solid var(--border); }
+  .nav-links a { font-size: 1.1rem; padding: 12px 0; color: var(--text); border-bottom: 1px solid var(--border); }
   .nav-toggle { display: flex; }
   .timeline::before { left: 20px; }
   .timeline-item { grid-template-columns: 40px 1fr; }
