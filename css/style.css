@@ -880,30 +880,54 @@ section { padding: 100px 0; }
 @media (max-width: 640px) {
   section { padding: 72px 0; }
 
-  /* Nav: let it expand downward when menu is open instead of using a
-     fixed-position overlay (which breaks inside a backdrop-filter parent) */
-  .nav { height: auto; background: var(--surface); backdrop-filter: none; }
-  .nav-inner { height: var(--nav-h); }
+  /* ── Nav: expand downward when open ──
+     .nav-links lives inside .nav-inner, so we need .nav-inner to wrap
+     and .nav-links to take a full second row. */
+  .nav {
+    height: auto;
+    background: var(--surface) !important; /* override JS inline style */
+    backdrop-filter: none;
+  }
+  .nav-inner {
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: var(--nav-h);
+    padding-bottom: 0;
+  }
   .nav-links {
-    display: none; gap: 0; flex-direction: column;
-    position: static; inset: unset;
+    order: 10;           /* push below logo + toggle */
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    position: static;
+    inset: unset;
     background: transparent;
-    padding: 0 24px 28px;
+    padding: 8px 0 24px;
     border-top: 1px solid var(--border);
+    gap: 0;
   }
   .nav-links.open { display: flex; }
-  .nav-links a { font-size: 1.1rem; padding: 12px 0; color: var(--text); border-bottom: 1px solid var(--border); }
+  .nav-links a {
+    font-size: 1.05rem;
+    padding: 12px 0;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-cta { border: none !important; padding: 12px 0 !important; border-radius: 0 !important; }
   .nav-toggle { display: flex; }
+
+  /* ── Timeline ── */
   .timeline::before { left: 20px; }
   .timeline-item { grid-template-columns: 40px 1fr; }
+
+  /* ── Hero ── */
   .hero-actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
+  /* Stat cards: full width stack */
+  .hero-stats { flex-direction: column !important; }
+  .stat-card { flex: 0 0 100% !important; min-width: 0 !important; width: 100%; }
 
-  /* Hero stat cards: stack vertically on small screens */
-  .hero-stats { flex-direction: column; }
-  .stat-card { min-width: 0; width: 100%; }
-
-  /* Featured blog card: collapse to single column on mobile */
+  /* ── Featured blog card: collapse to single column ── */
   .blog-grid > a.blog-card[style*="grid-template-columns"] {
     display: flex !important;
     flex-direction: column !important;
