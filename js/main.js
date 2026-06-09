@@ -3,11 +3,18 @@ const nav = document.querySelector('.nav');
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 
-window.addEventListener('scroll', () => {
+function updateNavBg() {
+  if (window.innerWidth <= 768) {
+    nav.style.background = ''; // let CSS handle mobile nav background
+    return;
+  }
   nav.style.background = window.scrollY > 40
     ? 'rgba(13,13,20,0.97)'
     : 'rgba(13,13,20,0.85)';
-});
+}
+
+window.addEventListener('scroll', updateNavBg);
+window.addEventListener('resize', updateNavBg);
 
 navToggle?.addEventListener('click', () => {
   navLinks.classList.toggle('open');
